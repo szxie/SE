@@ -1,0 +1,2 @@
+Binary: Binary.cpp
+	g++ `pkg-config --cflags opencv` -o Binary EdgeT.cpp `pkg-config --libs opencv`
