@@ -4,6 +4,8 @@
 #include "Binary.cpp"
 #include "HSV.cpp"
 #include "Circle.cpp"
+#include <sstream>
+#include "Avg.cpp"
 using namespace cv;
 
 const char WindName_local[] = "local";
@@ -30,19 +32,27 @@ int main(int argc, const char** argv)
 	namedWindow( WindName_filtered, CV_WINDOW_NORMAL );
 	namedWindow("Tmp", CV_WINDOW_NORMAL );
 	namedWindow("T2", CV_WINDOW_NORMAL );
+	namedWindow("T3", CV_WINDOW_NORMAL );
 	Mat filted, binary;
+	    std::stringstream ss;
 	//VideoCapture reader(0);
 	//if (!reader.isOpened())
 		//std::cout <<"fail\n";
 		frame = imread(argv[1], 1);
 	//while( reader.read(frame) ) {
-	while (1){
+	int num=3;
+	//while (1){
+
+        num++;
+		//frame = imread("../data/k"+s+".png",1);
+		//Mat local = frame.clone();
 		flip(frame, frame, 1);
 		Size sizeFrame = frame.size();
 
 		Range colRange(sizeFrame.width*Local_xMin, sizeFrame.width*Local_xMax);
 		Range rowRange(sizeFrame.height*Local_yMin, sizeFrame.height*Local_yMax);
 		Mat local(frame,rowRange,colRange);
+		//local = frame.clone(); 	
 		//imshow(WindName_local, local);
 		local = imread(argv[1], 1);
 		HSV(local,local,filted);
@@ -51,22 +61,32 @@ int main(int argc, const char** argv)
 		//	char b=cvWaitKey(10000000);
 		//if(b==98)continue; 
 		//Circle(binary, local, local);
-		Contours(binary,binary);
+		//Contours(binary,binary);
 		//Binary(local, filted);
-		imshow(WindName_filtered, binary);
+		//imshow(WindName_filtered, binary);
+		Mat img_tmp;
+		bitwise_not(binary, img_tmp);
+		imshow("T3", img_tmp);
+		
+		Mat img_avg;
+		int x, y;
+		x=y=-1;
+		averagePoint(img_tmp, local, img_avg, x, y);
+		std::cout << "x " << x << " y " << y << '\n';
+		imshow("T2", img_avg);
 		//char a=cvWaitKey(10000000);
 		//if(a==97)continue;
 		
 		//Circle(binary, local, local);
-		imshow("T2", local);
+		//imshow("T2", local);
 		frame.release();
 		binary.release();
 		filted.release();
-		char c = waitKey(1000/5);
-		if(c==27)break;
+		char c = waitKey();
+		//if(c==27)break;
 		//waitKey();
 	//}
-	}
+	//}
 	return 0;
 }
 

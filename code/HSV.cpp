@@ -12,7 +12,7 @@ int MinH = 0;
 int MaxS = 49;
 int MinS = 0;
 
-int MaxV = 32;
+int MaxV = 22;
 int MinV = 0;
 
 const int TOLERANCE = 15;

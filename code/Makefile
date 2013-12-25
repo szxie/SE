@@ -1,2 +1,2 @@
-Click: Click.cpp
-	g++ `pkg-config --cflags opencv` -o Click Click.cpp `pkg-config --libs opencv`
+K: K.cpp
+	g++ `pkg-config --cflags opencv` -o K K.cpp `pkg-config --libs opencv`

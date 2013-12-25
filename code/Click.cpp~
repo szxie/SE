@@ -6,7 +6,7 @@
 using namespace cv;
 
 IplImage* src=0;  
-void on_mouse( int event, int x, int y, int flags, void* ustc,)  
+void on_mouse( int event, int x, int y, int flags, void* ustc)  
 {  
     CvFont font;  
     cvInitFont(&font, CV_FONT_HERSHEY_SIMPLEX, 0.5, 0.5, 0, 1, CV_AA);  

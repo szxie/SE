@@ -16,7 +16,9 @@ void on_mouse( int event, int x, int y, int flags, void* ustc)
         CvPoint pt = cvPoint(x,y);  
         char temp[16];  
         sprintf(temp,"(%d,%d)",pt.x,pt.y); 
+        
         std::cout <<pt.x << " " << pt.y << std::endl; 
+        
         //cvPutText(src,temp, pt, &font, cvScalar(255, 255, 255, 0));  
         cvCircle( src, pt, 2,cvScalar(0,255,0,0) ,CV_FILLED, CV_AA, 0 );  
         cvShowImage( "src", src );  
