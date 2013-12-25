@@ -52,31 +52,44 @@ int main(int argc, const char** argv)
 		Range colRange(sizeFrame.width*Local_xMin, sizeFrame.width*Local_xMax);
 		Range rowRange(sizeFrame.height*Local_yMin, sizeFrame.height*Local_yMax);
 		Mat local(frame,rowRange,colRange);
+		
 		//local = frame.clone(); 	
 		//imshow(WindName_local, local);
+		
+		
+		
 		local = imread(argv[1], 1);
+		//***********filted->filted
 		HSV(local,local,filted);
 		imshow("Tmp", filted);
+		
+		//*************0/1->binary
 		inRange(filted, Scalar(MinH,MinS,MinV), Scalar(MaxH,MaxS,MaxV), binary);
 		//	char b=cvWaitKey(10000000);
 		//if(b==98)continue; 
 		//Circle(binary, local, local);
+		
+		//*********filled->binary
 		//Contours(binary,binary);
-		//Binary(local, filted);
 		//imshow(WindName_filtered, binary);
 		Mat img_tmp;
+		//********reverse->img_tmp
 		bitwise_not(binary, img_tmp);
+		//img_tmp = binary.clone();
 		imshow("T3", img_tmp);
 		
+		//******average point->img_avg
 		Mat img_avg;
 		int x, y;
 		x=y=-1;
 		averagePoint(img_tmp, local, img_avg, x, y);
+		//averagePoint(img_tmp, img_tmp, img_avg, x, y);
 		std::cout << "x " << x << " y " << y << '\n';
 		imshow("T2", img_avg);
 		//char a=cvWaitKey(10000000);
 		//if(a==97)continue;
 		
+		//******hough circle
 		//Circle(binary, local, local);
 		//imshow("T2", local);
 		frame.release();

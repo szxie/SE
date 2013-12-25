@@ -34,14 +34,23 @@ void Contours(const Mat &img, Mat &img_re)
     
     std::stringstream ss;
     
+    double tmp=0;
+    int id = 0;
     for( ; idx >= 0; idx = hierarchy[idx][0] )
     //for (; idx <contours.size(); idx++)
     {
     	num++;
         Scalar color( rand()&255, rand()&255, rand()&255 );
-        //std::cout << "idx" << idx << '\n';
-        //if (idx == )
-        std::cout << idx << " " << fabs(contourArea(contours[idx])) << std::endl;
+
+       // std::cout << idx << " " << fabs(contourArea(contours[idx])) << std::endl;
+        
+        double size = fabs(contourArea(contours[idx]));
+        if (size > tmp) {
+        	tmp = size;
+        	id = idx;
+        }
+        
+        /*
         drawContours( img_re, contours, idx, color, 1, 8, hierarchy );
         ss << idx;
         string s = ss.str();
@@ -51,10 +60,11 @@ void Contours(const Mat &img, Mat &img_re)
         namedWindow(s.c_str(), 0);
         drawContours( img_k, contours, idx, color, 1, 8, hierarchy );
     	imshow(s.c_str(), img_k);
-    
+    	*/
     }
+    drawContours(img_re, contours, id, Scalar(255,255,255), CV_FILLED, 8, hierarchy);
+    
     std::cout << num << std::endl;
-    //std::cout << hierarchy[1][0] << " "<< hierarchy[1][1] << " "<< hierarchy[1][2] << " " << hierarchy[1][3]<< '\n';
     
 
 }
