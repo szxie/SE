@@ -2,6 +2,7 @@
 #include <highgui.h>
 #include <iostream>
 #include <vector>
+#include <sstream>
 using namespace cv;
 int maxV=75;
 int minV=0;
@@ -15,17 +16,47 @@ void Contours(const Mat &img, Mat &img_re)
 	vector<vector<Point> > contours;
 	vector<Vec4i> hierarchy;
 	
-	findContours(img, contours, hierarchy, CV_RETR_TREE , CV_CHAIN_APPROX_SIMPLE);
+	Mat img_tmp = img.clone();
+	bitwise_not(img_tmp, img_tmp);
 	
-	img_re = img.clone();
+	namedWindow("T3", 0);
+	imshow("T3", img_tmp);
+	
+	findContours(img_tmp, contours, hierarchy, CV_RETR_CCOMP , CV_CHAIN_APPROX_SIMPLE);
+	
+	std:: cout << "contours: "<< contours.size() << std:: endl;
+	
+	img_re = img_tmp.clone();
 	//drawContours(img_re, contours, 0, Scalar(255), CV_FILLED);
 	
     int idx = 0;
+    int num = 0;
+    
+    std::stringstream ss;
+    
     for( ; idx >= 0; idx = hierarchy[idx][0] )
+    //for (; idx <contours.size(); idx++)
     {
+    	num++;
         Scalar color( rand()&255, rand()&255, rand()&255 );
+        //std::cout << "idx" << idx << '\n';
+        //if (idx == )
+        std::cout << idx << " " << fabs(contourArea(contours[0])) << std::endl;
         drawContours( img_re, contours, idx, color, 1, 8, hierarchy );
+        ss << idx;
+        string s = ss.str();
+        
+        Mat img_k = img_tmp.clone();
+        
+        namedWindow(s.c_str(), 0);
+        drawContours( img_k, contours, idx, color, 1, 8, hierarchy );
+    	imshow(s.c_str(), img_k);
+    
     }
+    std::cout << num << std::endl;
+    //std::cout << hierarchy[1][0] << " "<< hierarchy[1][1] << " "<< hierarchy[1][2] << " " << hierarchy[1][3]<< '\n';
+    
+
 }
 
 void Binary(const Mat &img, Mat &img_re)

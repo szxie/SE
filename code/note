@@ -1,0 +1,15 @@
+v1
+int MaxH = 90;
+int MinH = 0;
+
+int MaxS = 62;
+int MinS = 0;
+
+int MaxV = 63;
+int MinV = 0;
+
+v3
+
+61
+49
+32

@@ -6,13 +6,13 @@
 using namespace cv;
 //乒乓HSV 5/15 100/255 70/255
 //网球HSV 18/48 73/255 70/255
-int MaxH = 90;
+int MaxH = 31;
 int MinH = 0;
 
-int MaxS = 62;
+int MaxS = 27;
 int MinS = 0;
 
-int MaxV = 63;
+int MaxV = 21;
 int MinV = 0;
 
 const int TOLERANCE = 15;
@@ -311,7 +311,7 @@ void HSV(const Mat &img, const Mat &toBeFiltered, Mat &img_re)
 	refineVirginByColor(toBeFiltered, img_HSV, img_re, 0);
 	//findBall(img_t1,img,img_re,fout);
 
-inRange(filteded, Scalar(MinH,MinS,MinV), Scalar(MaxH,MaxS,MaxV), binary);
+
 	long endTime=clock();//获得结束时间
 	//std::cout<<"endTime-beginTime:"<<endTime-beginTime<<std::endl;
 	//filterT(img_HSV, img_re);

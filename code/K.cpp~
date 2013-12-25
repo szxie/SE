@@ -22,7 +22,7 @@ extern int MinS;
 extern int MaxV;
 extern int MinV;
 
-int main()
+int main(int argc, const char** argv)
 {
 	Mat frame;
 	int count = 0;
@@ -30,27 +30,28 @@ int main()
 	namedWindow( WindName_filtered, CV_WINDOW_NORMAL );
 	namedWindow("Tmp", CV_WINDOW_NORMAL );
 	namedWindow("T2", CV_WINDOW_NORMAL );
-			Mat filted, binary;
-	VideoCapture reader(0);
-	if (!reader.isOpened())
-		std::cout <<"fail\n";
-		
-	while( reader.read(frame) ) {
+	Mat filted, binary;
+	//VideoCapture reader(0);
+	//if (!reader.isOpened())
+		//std::cout <<"fail\n";
+		frame = imread(argv[1], 1);
+	//while( reader.read(frame) ) {
+	while (1){
 		flip(frame, frame, 1);
 		Size sizeFrame = frame.size();
 
 		Range colRange(sizeFrame.width*Local_xMin, sizeFrame.width*Local_xMax);
 		Range rowRange(sizeFrame.height*Local_yMin, sizeFrame.height*Local_yMax);
 		Mat local(frame,rowRange,colRange);
-		imshow(WindName_local, local);
-
+		//imshow(WindName_local, local);
+		local = imread(argv[1], 1);
 		HSV(local,local,filted);
 		imshow("Tmp", filted);
 		inRange(filted, Scalar(MinH,MinS,MinV), Scalar(MaxH,MaxS,MaxV), binary);
 		//	char b=cvWaitKey(10000000);
 		//if(b==98)continue; 
-		Circle(binary, local, local);
-		//Contours(binary,binary);
+		//Circle(binary, local, local);
+		Contours(binary,binary);
 		//Binary(local, filted);
 		imshow(WindName_filtered, binary);
 		//char a=cvWaitKey(10000000);
@@ -61,8 +62,10 @@ int main()
 		frame.release();
 		binary.release();
 		filted.release();
-		char c=cvWaitKey(1000/5);
-		if(c==27)break;
+		//char c = waitKey(1000/5);
+		//if(c==27)break;
+		waitKey();
+	//}
 	}
 	return 0;
 }

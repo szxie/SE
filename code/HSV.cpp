@@ -6,13 +6,13 @@
 using namespace cv;
 //乒乓HSV 5/15 100/255 70/255
 //网球HSV 18/48 73/255 70/255
-int MaxH = 90;
+int MaxH = 61;
 int MinH = 0;
 
-int MaxS = 62;
+int MaxS = 49;
 int MinS = 0;
 
-int MaxV = 63;
+int MaxV = 32;
 int MinV = 0;
 
 const int TOLERANCE = 15;
