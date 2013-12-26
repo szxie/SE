@@ -50,19 +50,20 @@ void Contours(const Mat &img, Mat &img_re)
         	id = idx;
         }
         
-        /*
+        
         drawContours( img_re, contours, idx, color, 1, 8, hierarchy );
         ss << idx;
-        string s = ss.str();
+        string s0 = ss.str();
         
         Mat img_k = img_tmp.clone();
-        
-        namedWindow(s.c_str(), 0);
+        string s = s0.c_str();
+        namedWindow(s, 0);
         drawContours( img_k, contours, idx, color, 1, 8, hierarchy );
-    	imshow(s.c_str(), img_k);
-    	*/
+    	imshow(s, img_k);
+    	imwrite(s+".jpg", img_k);
+    	
     }
-    drawContours(img_re, contours, id, Scalar(255,255,255), CV_FILLED, 8, hierarchy);
+   // drawContours(img_re, contours, id, Scalar(255,255,255), CV_FILLED, 8, hierarchy);
     
     std::cout << num << std::endl;
     
