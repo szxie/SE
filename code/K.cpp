@@ -1,5 +1,4 @@
-#include <cv.h>
-#include <highgui.h>
+#include <opencv2/opencv.hpp>
 #include <iostream>
 #include "Binary.cpp"
 #include "HSV.cpp"
@@ -62,7 +61,6 @@ int main(int argc, const char** argv)
 		//***********filted->filted
 		HSV(local,local,filted);
 		imshow("Tmp", filted);
-		imwrite("tmp.jpg", filted);
 		//*************0/1->binary
 		inRange(filted, Scalar(MinH,MinS,MinV), Scalar(MaxH,MaxS,MaxV), binary);
 		//	char b=cvWaitKey(10000000);
@@ -77,7 +75,6 @@ int main(int argc, const char** argv)
 		//bitwise_not(binary, img_tmp);
 		img_tmp = binary.clone();
 		imshow("T3", img_tmp);
-		imwrite("t3.jpg", img_tmp);
 		//******average point->img_avg
 		Mat img_avg;
 		int x, y;

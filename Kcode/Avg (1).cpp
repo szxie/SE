@@ -5,49 +5,13 @@
 #include <sstream>
 using namespace cv;
 
-int Mymin = 0;
-
-int findSmall(int *arr, int f, int h)
-{
-	int step = 5;
-	int count = 0;
-	int tmp = arr[h];
-	if (f<h) {
-		for (int i=h; i>=f; i--) {
-			if (arr[i] >= Mymin) { count=0; tmp = arr[i]; }
-			if (arr[i] <= tmp) { count = 0; tmp = arr[i]; }
-			else {
-				count++;
-				if (count >= step)
-				return i;	
-			}
-		
-		}
-	}
-	else {
-		tmp = arr[h];
-		for (int i=h; i<=f; i++) {
-			if (arr[i] >= Mymin) { count=0; tmp = arr[i]; }
-			if (arr[i]<=tmp) { count = 0; tmp = arr[i]; }
-			else {
-				count++;
-				if (count>=step)
-				return i;
-			
-			}
-		}
-	}
-	
-	return -1;
-}
-
-void averagePoint(const Mat& img_in, const Mat& img_draw, Mat& img_re, int &x, int &y)
+void averagePoint(const Mat& img_in, const Mat& img_draw, Mat& img_re, int &x, int &y,double ratio)
 {
 	int sum;
 	//std::cout << "aver " << img_in.step[1] << '\n';
 	uchar *imgData =(uchar*) img_in.data;
 	x=y=0;
-	std::cout << img_in.rows << " " << img_in.cols << '\n';
+	//std::cout << img_in.rows << " " << img_in.cols << '\n';
 	Mat img_tmpr = img_in.clone();
 	uchar *imgData_tmpr = (uchar*)img_tmpr.data;
 
@@ -59,12 +23,9 @@ void averagePoint(const Mat& img_in, const Mat& img_draw, Mat& img_re, int &x, i
 	
 	int col_count = 0;
 	int max;
-	max = img_in.rows/5.5;
-	Mymin = img_in.rows/7;
-	//5.5
+	//max = img_in.rows/5;
 	
 	int tmp = 0;
-	int bign = -1;
 	int *col_num = new int[img_in.cols];
 	
 	for (int n=0; n<img_in.cols; n++) {
@@ -75,22 +36,15 @@ void averagePoint(const Mat& img_in, const Mat& img_draw, Mat& img_re, int &x, i
 				col_num[n]++;
 			}
 		}
-		if (col_num[n] > tmp && col_num[n] < img_in.rows) { tmp = col_num[n]; bign = n; }
+		if (col_num[n] > tmp && col_num[n] < img_in.rows) tmp = col_num[n];
 	}
-	/*
-	std::cout << "bign " << bign << '\n';
-	int tl = findSmall(col_num, 1, bign);
-	int th = findSmall(col_num, img_in.cols-1, bign);
-	std::cout << "tl " << tl << " th " << th << '\n';
-	*/
-	//max = (tmp*3)/4;
+	
+	max = tmp/ratio;
 	//std::cout << "max "<< max << '\n';
 	//max = 0;
 	
 	for (int n=0; n<img_in.cols; n++) {
 		if (col_num[n]>max && col_num[n] < img_in.rows) col_f[n] = true;
-		//std:: cout << n << " " << col_num[n] << '\n'; 
-		//if (n>=tl && n<=th) col_f[n] = true;
 	}
 		
 	//for (int i=0; i<img_in.cols; i++) col_f[i] = true;
@@ -129,16 +83,13 @@ void averagePoint(const Mat& img_in, const Mat& img_draw, Mat& img_re, int &x, i
 	
 	Point ce(x, y);
 	circle(img_re, ce, 3, Scalar(0,255,0));
-	Point re(99 ,44);
-	circle(img_re, re, 3, Scalar(0,0,255));
-	
+	/*
 	namedWindow("TTK1", 0);
 	imshow("TTK1", img_tmpr);
-	imwrite( "tmpr.jpg",img_tmpr);
 	namedWindow("TTK2", 0);
 	imshow("TTK2", img_re);
-	imwrite("re.jpg", img_re );
 	waitKey();
+	*/
 
 }
 
