@@ -91,3 +91,21 @@ void averagePoint(const Mat& img_in, const Mat& img_draw, Mat& img_re, int &x, i
 
 }
 
+void Contours(const Mat &img, Mat &img_re)
+{
+	vector<vector<Point> > contours;
+	vector<Vec4i> hierarchy;
+	
+	findContours(img, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
+	
+	img_re = img.clone();
+	//drawContours(img_re, contours, 0, Scalar(255), CV_FILLED);
+	
+    int idx = 0;
+    for( ; idx >= 0; idx = hierarchy[idx] [0] )
+    {
+        Scalar color( rand()&255, rand()&255, rand()&255 );
+        drawContours( img_re, contours, idx, color, 1, 8, hierarchy );
+    }
+} 
+

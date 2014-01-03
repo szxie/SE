@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
+project( SE )
+find_package( OpenCV REQUIRED )
+set(SRC_LIST main_all.cpp functionEntrances.cpp final_fromfile.cpp final_fromCAM.cpp Edge.cpp HSV.cpp Circle.cpp Avg.cpp corner.cpp evaluation.cpp )
+add_executable( SE ${SRC_LIST} )
+target_link_libraries( SE ${OpenCV_LIBS} )

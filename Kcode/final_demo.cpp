@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include <opencv2/opencv.hpp>
 #include "Edge.h"
 #include "HSV.h"
 #include "Circle.h"
@@ -10,8 +10,8 @@ void Contours(const Mat &img, Mat &img_re);
 
 const char WindName_local[] = "local";
 const char WindName_filtered[] = "filtered";
-const char* InputVideoPath = "F:\\eyeDetection_2.avi";
-const char* OutputVideoPath = "F:\\demo.avi";
+const char* InputVideoPath = "../data/eyeDetection_2.avi";
+const char* OutputVideoPath = "../data/demo.avi";
 extern double Local_xMin;
 extern double Local_xMax;
 extern double Local_yMin;

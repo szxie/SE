@@ -10,6 +10,8 @@ int MinS = 0;
 int MaxV = 22;
 int MinV = 0;
 
+bool flag1 = true;
+
 const int TOLERANCE = 15;
 const int MinRadius = 10;
 const double FillRateDevi = 0.04;
@@ -283,8 +285,8 @@ bool isOutOfBound(int slot, const Mat &img_HSV){
 void multiBar(){
 	cvNamedWindow("ball1");
 
-	cvCreateTrackbar("LowerH", "ball1", &MinH, 180, NULL);
-    cvCreateTrackbar("UpperH", "ball1", &MaxH, 180, NULL);
+	cvCreateTrackbar("LowerH", "ball1", &MinH, 256, NULL);
+    cvCreateTrackbar("UpperH", "ball1", &MaxH, 256, NULL);
 
 	cvCreateTrackbar("LowerS", "ball1", &MinS, 256, NULL);
     cvCreateTrackbar("UpperS", "ball1", &MaxS, 256, NULL);
@@ -303,6 +305,8 @@ void HSV(const Mat &img, const Mat &toBeFiltered, Mat &img_re)
 	//cvtColor(img, img_HSV, CV_BGR2HSV);
 	img_HSV = img.clone();
 	multiBar();
+	
+	
 	refineVirginByColor(toBeFiltered, img_HSV, img_re, 0);
 	//findBall(img_t1,img,img_re,fout);
 
