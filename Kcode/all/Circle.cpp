@@ -3,10 +3,10 @@
 
 using namespace cv;
 double Ratio = 0.8;
-double Local_xMin = 0.3;
-double Local_xMax = 0.65;
-double Local_yMin = 0.35;
-double Local_yMax = 0.7;
+double Local_xMin = 0.4;
+double Local_xMax = 0.6;
+double Local_yMin = 0.4;
+double Local_yMax = 0.65;
 //double MaxfillRate_others = 0.5;
 double MinfillRate_others = 0;
 double MaxfillRate_circle = 1;

@@ -21,7 +21,7 @@ void averagePoint(const Mat& img_in, const Mat& img_draw, Mat& img_re, int &x, i
 	
 	int col_count = 0;
 	int max;
-	max = img_in.rows/ratio;
+	// max = img_in.rows/ratio;
 	
 	int tmp = 0;
 	int *col_num = new int[img_in.cols];
@@ -37,7 +37,7 @@ void averagePoint(const Mat& img_in, const Mat& img_draw, Mat& img_re, int &x, i
 		if (col_num[n] > tmp && col_num[n] < img_in.rows) tmp = col_num[n];
 	}
 	
-	//max = tmp*ratio;
+	max = tmp/ratio;
 	//std::cout << "max "<< max << '\n';
 	//max = 0;
 	
@@ -81,13 +81,13 @@ void averagePoint(const Mat& img_in, const Mat& img_draw, Mat& img_re, int &x, i
 	
 	Point ce(x, y);
 	circle(img_re, ce, 3, Scalar(0,255,0));
-	/*
-	namedWindow("TTK1", 0);
-	imshow("TTK1", img_tmpr);
-	namedWindow("TTK2", 0);
-	imshow("TTK2", img_re);
-	waitKey();
-	*/
+	
+	// namedWindow("TTK1", 0);
+	// imshow("TTK1", img_tmpr);
+	// namedWindow("TTK2", 0);
+	// imshow("TTK2", img_re);
+	// waitKey();
+	
 
 }
 
@@ -96,16 +96,47 @@ void Contours(const Mat &img, Mat &img_re)
 	vector<vector<Point> > contours;
 	vector<Vec4i> hierarchy;
 	
-	findContours(img, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
+	Mat img_tmp = img.clone();
 	
-	img_re = img.clone();
+	bitwise_not(img_tmp, img_tmp);
+	
+	// namedWindow("T3", 0);
+	// imshow("T3", img_tmp);
+	
+	findContours(img_tmp, contours, hierarchy, CV_RETR_CCOMP , CV_CHAIN_APPROX_SIMPLE);
+	
+	// std:: cout << "contours: "<< contours.size() << std:: endl;
+	
+	img_re = img_tmp.clone();
 	//drawContours(img_re, contours, 0, Scalar(255), CV_FILLED);
 	
-    int idx = 0;
-    for( ; idx >= 0; idx = hierarchy[idx] [0] )
+    int idx = -1;
+    int num = 0;
+    
+    std::stringstream ss;
+    
+    double tmp=0;
+    int id = 0;
+    for( ; idx >= 0; idx = hierarchy[idx][0] )
     {
+    	num++;
         Scalar color( rand()&255, rand()&255, rand()&255 );
-        drawContours( img_re, contours, idx, color, 1, 8, hierarchy );
+
+       // std::cout << idx << " " << fabs(contourArea(contours[idx])) << std::endl;
+        
+        double size = fabs(contourArea(contours[idx]));
+        if (size > tmp) {
+        	tmp = size;
+        	id = idx;
+        }
+        
+        
+        // drawContours( img_re, contours, idx, color, 1, 8, hierarchy );    	
     }
-} 
+   	if (id != -1)
+   		drawContours(img_re, contours, id, Scalar(255,255,255), CV_FILLED, 8, hierarchy);
+    
+    
+
+}
 

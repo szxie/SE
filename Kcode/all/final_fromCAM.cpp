@@ -46,10 +46,6 @@ int fromCAM()
 
 		//adjust size part!
 		Size sizeFrame = frame.size();
-	 	Local_xMin = 0.4;
-		Local_xMax = 0.6;
- 		Local_yMin = 0.4;
- 		Local_yMax = 0.65;
 		Range colRange(sizeFrame.width*Local_xMin, sizeFrame.width*Local_xMax);
 		Range rowRange(sizeFrame.height*Local_yMin, sizeFrame.height*Local_yMax);
 		Mat local(frame,rowRange,colRange);
@@ -57,7 +53,6 @@ int fromCAM()
 
 		while(1){
 			Mat filtered;
-
 			// MaxV = 40;
 			HSV(local,local,filtered);
 			find_corner(filtered,frame,print);
@@ -67,11 +62,13 @@ int fromCAM()
 			imshow("T1", filtered);
 
 			inRange(filtered, Scalar(MinH,MinS,MinV), Scalar(MaxH,MaxS,MaxV), binary);
-			bitwise_not(binary,binary);
+			// bitwise_not(binary,binary);
 			int nonZeroCount = countNonZero(binary);
 			//Circle(filtered,filtered,filtered,nonZeroCount);
 			int Avg_x,Avg_y,Hough_x,Hough_y,hybrid_x,hybrid_y;
-			averagePoint(binary,frame,frame,Avg_x,Avg_y, 7);
+			
+			bitwise_not(binary,binary);
+			averagePoint(binary,frame,frame,Avg_x,Avg_y, 10);
 			Circle(filtered,frame,frame,Hough_x,Hough_y);
 			if(Avg_x==-1 && Hough_x==-1){
 				imshow(WindName_filtered, print);
